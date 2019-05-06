@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="languageNames">
+        <item>Arabic</item>
+        <item>Azerbaijani</item>
+        <item>Belarusian</item>
+        <item>Bulgarian</item>
+        <item>Bengali</item>
+        <item>Bosnian</item>
+        <item>Catalan</item>
+        <item>Czech</item>
+        <item>Danish</item>
+        <item>German</item>
+        <item>Greek</item>
+        <item>English</item>
+        <item>Esperanto</item>
+        <item>Spanish</item>
+        <item>Estonian</item>
+        <item>Finnish</item>
+        <item>French</item>
+        <item>Hebrew</item>
+        <item>Hindi</item>
+        <item>Croatian</item>
+        <item>Hungarian</item>
+        <item>Indonesian</item>
+        <item>Icelandic</item>
+        <item>Italian</item>
+        <item>Japanese</item>
+        <item>Georgian</item>
+        <item>Kannada</item>
+        <item>Korean</item>
+        <item>Cornish</item>
+        <item>Latvian</item>
+        <item>Malayam</item>
+        <item>Marathi</item>
+        <item>Norwegian Bokmål</item>
+        <item>Dutch</item>
+        <item>Punjabi</item>
+        <item>Polish</item>
+        <item>Portuguese</item>
+        <item>Romanian</item>
+        <item>Russian</item>
+        <item>Slovak</item>
+        <item>Slovenian</item>
+        <item>Serbian</item>
+        <item>Swedish</item>
+        <item>Tamil Telugu</item>
+        <item>Tetum</item>
+        <item>Turkish</item>
+        <item>Ukrainian</item>
+        <item>Urdu</item>
+        <item>Igpay Atinlay</item>
+        <item>Simplified Chinese</item>
+        <item>Traditional Chinese</item>
+    </string-array>
+
+    <string-array name="languageCodes">
+        <item>ar</item>
+        <item>az</item>
+        <item>be</item>
+        <item>bg</item>
+        <item>bn</item>
+        <item>bs</item>
+        <item>ca</item>
+        <item>cs</item>
+        <item>da</item>
+        <item>de</item>
+        <item>el</item>
+        <item>en</item>
+        <item>eo</item>
+        <item>es</item>
+        <item>et</item>
+        <item>fi</item>
+        <item>fr</item>
+        <item>he</item>
+        <item>hi</item>
+        <item>hr</item>
+        <item>hu</item>
+        <item>id</item>
+        <item>is</item>
+        <item>it</item>
+        <item>ja</item>
+        <item>ka</item>
+        <item>kn</item>
+        <item>ko</item>
+        <item>kw</item>
+        <item>lv</item>
+        <item>ml</item>
+        <item>mr</item>
+        <item>nb</item>
+        <item>nl</item>
+        <item>pa</item>
+        <item>pl</item>
+        <item>pt</item>
+        <item>ro</item>
+        <item>ru</item>
+        <item>sk</item>
+        <item>sl</item>
+        <item>sr</item>
+        <item>sv</item>
+        <item>ta</item>
+        <item>te</item>
+        <item>tet</item>
+        <item>tr</item>
+        <item>uk</item>
+        <item>ur</item>
+        <item>x-pig-latin</item>
+        <item>zh</item>
+        <item>zh-tw</item>
+    </string-array>
+
+    <string-array name="unitsNames">
+        <item>Auto</item>
+        <item>°C, km/h (CA)</item>
+        <item>°C, mp/h (UK2)</item>
+        <item>°F, mp/h (Imperial)</item>
+        <item>°C, m/s (SI)</item>
+    </string-array>
+
+    <string-array name="unitsValue">
+        <item>auto</item>
+        <item>ca</item>
+        <item>uk2</item>
+        <item>us</item>
+        <item>si</item>
+    </string-array>
+</resources>

@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Weather</string>
+
+    <string name="clear_day">&#xf00d;</string>
+    <string name="clear_night">&#xf02e;</string>
+    <string name="rain">&#xf019;</string>
+    <string name="snow">&#xf01b;</string>
+    <string name="sleet">&#xf0b5;</string>
+    <string name="wind">&#xf050;</string>
+    <string name="fog">&#xf014;</string>
+    <string name="cloudy">&#xf013;</string>
+    <string name="partly_cloudy_day">&#xf002;</string>
+    <string name="partly_cloudy_night">&#xf086;</string>
+    <string name="hail">&#xf015;</string>
+    <string name="thunderstorm">&#xf01e;</string>
+    <string name="tornado">&#xf056;</string>
+</resources>
