@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="Weather">
-        <ListPreference
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.preference.PreferenceCategory android:title="Weather">
+        <androidx.preference.ListPreference
             android:defaultValue="en"
             android:entries="@array/languageNames"
             android:entryValues="@array/languageCodes"
@@ -10,7 +10,7 @@
             android:summary="%s"
             android:title="Language" />
 
-        <ListPreference
+        <androidx.preference.ListPreference
             android:defaultValue="auto"
             android:entries="@array/unitsNames"
             android:entryValues="@array/unitsValue"
@@ -18,12 +18,17 @@
             android:key="pref_units"
             android:summary="%s"
             android:title="Unit of measurement" />
-    </PreferenceCategory>
+    </androidx.preference.PreferenceCategory>
 
-    <PreferenceCategory android:title="Application">
+    <androidx.preference.PreferenceCategory android:title="Application">
+        <Preference
+            android:icon="@drawable/ic_view_column_black_24dp"
+            android:key="pref_tutorial"
+            android:title="Tutorial" />
+
         <Preference
             android:icon="@drawable/ic_info_outline_black_24dp"
             android:key="pref_about"
             android:title="About" />
-    </PreferenceCategory>
-</PreferenceScreen>
+    </androidx.preference.PreferenceCategory>
+</androidx.preference.PreferenceScreen>

@@ -58,4 +58,15 @@ public class PreferencesManager
     {
         return instance.getString("pref_units", "auto");
     }
+
+    public static void setFirstTime()
+    {
+        SharedPreferences.Editor prefsEditor = instance.edit();
+        prefsEditor.putBoolean("pref_first", false);
+        prefsEditor.apply();
+    }
+    public static boolean getFirstTime()
+    {
+        return instance.getBoolean("pref_first", true);
+    }
 }

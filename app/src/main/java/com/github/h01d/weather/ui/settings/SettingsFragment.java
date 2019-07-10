@@ -13,6 +13,7 @@ package com.github.h01d.weather.ui.settings;
     limitations under the License.
 */
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -20,6 +21,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.github.h01d.weather.R;
+import com.github.h01d.weather.ui.tutorial.TutorialActivity;
 
 public class SettingsFragment extends PreferenceFragmentCompat
 {
@@ -33,15 +35,28 @@ public class SettingsFragment extends PreferenceFragmentCompat
     {
         setPreferencesFromResource(R.xml.preferences, rootKey);
 
-        Preference about = findPreference("pref_about");
-        about.setOnPreferenceClickListener(preference ->
+        Preference tutorial = findPreference("pref_tutorial");
+        if(tutorial != null)
         {
-            new AlertDialog.Builder(getContext())
-                    .setTitle("WeatherApp")
-                    .setMessage("Open source weather application with a unique style.\n\nWeather icons by Erikflowers.\nPowered by Dark Sky.")
-                    .setNegativeButton("Close", null)
-                    .show();
-            return true;
-        });
+            tutorial.setOnPreferenceClickListener(preference ->
+            {
+                startActivity(new Intent(getContext(), TutorialActivity.class));
+                return true;
+            });
+        }
+
+        Preference about = findPreference("pref_about");
+        if(about != null)
+        {
+            about.setOnPreferenceClickListener(preference ->
+            {
+                new AlertDialog.Builder(getContext())
+                        .setTitle("WeatherApp")
+                        .setMessage("Open source weather application with a unique style.\n\nWeather icons by Erikflowers.\nPowered by Dark Sky.")
+                        .setNegativeButton("Close", null)
+                        .show();
+                return true;
+            });
+        }
     }
 }

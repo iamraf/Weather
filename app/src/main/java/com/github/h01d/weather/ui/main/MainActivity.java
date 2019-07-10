@@ -36,6 +36,7 @@ import com.github.h01d.weather.data.local.preference.PreferencesManager;
 import com.github.h01d.weather.data.remote.model.Forecast;
 import com.github.h01d.weather.ui.location.LocationActivity;
 import com.github.h01d.weather.ui.settings.SettingsActivity;
+import com.github.h01d.weather.ui.tutorial.TutorialActivity;
 import com.github.h01d.weather.util.TimeUtils;
 import com.github.h01d.weather.R;
 
@@ -99,6 +100,11 @@ public class MainActivity extends AppCompatActivity implements MainView
         PreferencesManager.init(getApplicationContext());
 
         mMainPresenter = new MainPresenter(this);
+
+        if(PreferencesManager.getFirstTime())
+        {
+            startActivity(new Intent(MainActivity.this, TutorialActivity.class));
+        }
     }
 
     @Override

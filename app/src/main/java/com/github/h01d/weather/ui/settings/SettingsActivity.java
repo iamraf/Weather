@@ -22,18 +22,25 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.github.h01d.weather.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class SettingsActivity extends AppCompatActivity
 {
+    @BindView(R.id.a_settings_toolbar)
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        ButterKnife.bind(this);
+
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         getWindow().setStatusBarColor(Color.WHITE);
 
-        Toolbar toolbar = findViewById(R.id.a_settings_toolbar);
         toolbar.setTitle("Settings");
         toolbar.setBackgroundColor(Color.WHITE);
         setSupportActionBar(toolbar);
