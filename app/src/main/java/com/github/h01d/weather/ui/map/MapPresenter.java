@@ -18,6 +18,7 @@ import android.database.sqlite.SQLiteConstraintException;
 import com.github.h01d.weather.data.local.database.DatabaseManager;
 import com.github.h01d.weather.data.local.database.entity.Location;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -42,6 +43,7 @@ public class MapPresenter
     {
         disposable.add(databaseManager.locationDao().insert(location)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> mapView.locationAdded(true, null), throwable ->
                 {
                     if(throwable instanceof SQLiteConstraintException)

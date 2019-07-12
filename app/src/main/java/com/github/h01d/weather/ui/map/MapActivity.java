@@ -13,13 +13,25 @@ package com.github.h01d.weather.ui.map;
     limitations under the License.
 */
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,6 +75,10 @@ public class MapActivity extends AppCompatActivity implements MapView
     private MapPresenter mPresenter;
     private GoogleMap mGoogleMap;
     private Location mSelectedLocation = null;
+    private LocationManager mLocationManager;
+
+    private final int PERMISSION_CODE = 69;
+    private final int LOCATION_CODE = 420;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -79,6 +95,8 @@ public class MapActivity extends AppCompatActivity implements MapView
         toolbar.setBackgroundColor(Color.WHITE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener()
         {
@@ -174,9 +192,6 @@ public class MapActivity extends AppCompatActivity implements MapView
         {
             mGoogleMap = googleMap;
 
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(40.6401, 22.9444))); //Thessaloniki
-            mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14.0f));
-
             mGoogleMap.setOnMapLongClickListener(latLng ->
             {
                 mGoogleMap.clear();
@@ -213,6 +228,73 @@ public class MapActivity extends AppCompatActivity implements MapView
                     e.printStackTrace();
                 }
             });
+
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            {
+                ActivityCompat.requestPermissions(MapActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_CODE);
+            }
+            else
+            {
+                if(mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+                {
+                    mGoogleMap.setMyLocationEnabled(true);
+
+                    mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener()
+                    {
+                        @Override
+                        public void onLocationChanged(android.location.Location location)
+                        {
+                            if(location != null)
+                            {
+                                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+                                mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14.0f));
+                            }
+                            else
+                            {
+                                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(40.6401, 22.9444))); //Thessaloniki
+                                mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14.0f));
+                            }
+
+                            mLocationManager.removeUpdates(this);
+                        }
+
+                        @Override
+                        public void onStatusChanged(String s, int i, Bundle bundle)
+                        {
+
+                        }
+
+                        @Override
+                        public void onProviderEnabled(String s)
+                        {
+
+                        }
+
+                        @Override
+                        public void onProviderDisabled(String s)
+                        {
+
+                        }
+                    });
+                }
+                else
+                {
+                    new AlertDialog.Builder(MapActivity.this)
+                            .setTitle("Location")
+                            .setMessage("Location is disabled. Would you like turn it on?")
+                            .setPositiveButton("YES", (dialogInterface, i) ->
+                            {
+                                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivityForResult(intent, LOCATION_CODE);
+                            })
+                            .setNegativeButton("NO", (dialogInterface, i) ->
+                            {
+                                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(40.6401, 22.9444))); //Thessaloniki
+                                mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14.0f));
+                            })
+                            .show();
+                }
+            }
         });
     }
 
@@ -221,12 +303,55 @@ public class MapActivity extends AppCompatActivity implements MapView
     {
         if(isSuccessful)
         {
-            runOnUiThread(() -> Toast.makeText(getApplicationContext(), "New location added", Toast.LENGTH_SHORT).show());
+            Toast.makeText(getApplicationContext(), "New location added", Toast.LENGTH_SHORT).show();
             finish();
         }
         else
         {
-            runOnUiThread(() -> Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show());
+            Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == LOCATION_CODE)
+        {
+            if(mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+            {
+                loadMapFragment();
+            }
+            else
+            {
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(40.6401, 22.9444))); //Thessaloniki
+                mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14.0f));
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == PERMISSION_CODE)
+        {
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                {
+                    loadMapFragment();
+                }
+            }
+            else
+            {
+                Toast.makeText(MapActivity.this, "Failed to grand permissions.", Toast.LENGTH_SHORT).show();
+
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(40.6401, 22.9444))); //Thessaloniki
+                mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14.0f));
+            }
         }
     }
 }
